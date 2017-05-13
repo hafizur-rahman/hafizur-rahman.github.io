@@ -1,13 +1,13 @@
 # Setup
 title:        Hafizur Rahman
-tagline:      Journey towards Software Craftsmanship
+tagline:      Aspiring Data Scientist/Software Architect
 baseurl:      ""
 paginate:     1
 
 # About/contact
 author:
   name:       Hafizur Rahman 
-  url:        http://yourhomepage.com 
+  mail:       bibagimon (at) gmail
 
 # Gems
 gems:
