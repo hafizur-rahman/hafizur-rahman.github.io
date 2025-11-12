@@ -3,7 +3,7 @@ layout: post
 title: Agent Types
 ---
 
-![Agent types](assets/img/agent-types.jpg)
+![Agent types](../assets/img/agent-type.jpg)
 
 Not all agents are created equal. They exist on a spectrum of complexity and autonomy, largely defined by how they interact with their LLM core.
 
@@ -68,7 +68,10 @@ class AugmentedPromptAgent:
         comments += f"\n[Comment] The persona '{self.persona}' was enforced in the system prompt to shape the response style and tone."
         
         return response_content + comments
+```
 
+### KnowledgeAugmentedPromptAgent
+```
 class KnowledgeAugmentedPromptAgent:
     def __init__(self, openai_api_key: str, persona: str, knowledge: str, base_url: str):
         self.persona = persona
@@ -94,7 +97,10 @@ class KnowledgeAugmentedPromptAgent:
             temperature=0,
         )
         return response.choices[0].message.content
+```
 
+### RAGKnowledgePromptAgent
+```
 # RAGKnowledgePromptAgent class definition
 class RAGKnowledgePromptAgent:
     """
@@ -238,7 +244,10 @@ class RAGKnowledgePromptAgent:
         )
 
         return response.choices[0].message.content
+```
 
+### EvaluationAgent
+```
 class EvaluationAgent:
 
     def __init__(
@@ -323,7 +332,10 @@ class EvaluationAgent:
             "evaluation": last_evaluation,
             "iterations": i + 1,
         }
+```
 
+### RoutingAgent
+```
 class RoutingAgent:
 
     def __init__(self, openai_api_key: str, agents,base_url: str):
@@ -369,7 +381,10 @@ class RoutingAgent:
 
         print(f"[Router] Best agent: {best_agent['name']} (score={best_score:.3f})")
         return best_agent["func"](user_input)
+```
 
+### ActionPlanningAgent
+```
 class ActionPlanningAgent:
 
     def __init__(self, openai_api_key: str, knowledge: str, base_url: str):
