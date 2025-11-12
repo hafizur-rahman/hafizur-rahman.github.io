@@ -86,6 +86,7 @@ nav:
     - Links: 'posts/bookmarks.md'
     - CS211: 'posts/stanford-online-ai.md'
   - Agentic AI:
+    - Agent Types: 'posts/agent-types.md'
     - Agno Framework: 'posts/agentic-ai-w-agno.md'
   - About me: 'author.md'
   
