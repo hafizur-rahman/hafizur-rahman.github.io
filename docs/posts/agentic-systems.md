@@ -10,12 +10,11 @@ Building dependable systems usually involves several major components, with a fo
 [Design Patterns in Agentic AI Workflow](https://pub.towardsai.net/5-design-patterns-in-agentic-ai-workflow-c972c83f77e4)
 
 * Prompt chaining
-    * https://www.datacamp.com/tutorial/prompt-chaining-llm
-    * https://www.ibm.com/think/topics/prompt-chaining
-    * https://www.geeksforgeeks.org/artificial-intelligence/prompt-chaining/
+    * [Datacamp Article](https://www.datacamp.com/tutorial/prompt-chaining-llm)
+    * [IBM Article](https://www.ibm.com/think/topics/prompt-chaining)
+    * [GeekForGeeks Article](https://www.geeksforgeeks.org/artificial-intelligence/prompt-chaining/)
 * Routing
-    * 
-    * https://www.patronus.ai/ai-agent-development/ai-agent-routing
+    * [Patronous AI Article](https://www.patronus.ai/ai-agent-development/ai-agent-routing)
 * Parallelization
 * Evaluator-Optimizer
 * Orchestrator-Workers
