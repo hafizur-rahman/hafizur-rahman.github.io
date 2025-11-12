@@ -8,14 +8,6 @@ I recently came to know about Google ADK (Agent Development Kit). Even though mo
 
 Today I came to know about another agentic framework named Agno. So far, it seems to work for open weight models properly!
 
-```mermaid
-graph TD
-    A-->B
-    A-->C
-    B-->D
-    C-->D
-```
-
 ### Code
 ```
 from agno.team import Team

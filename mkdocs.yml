@@ -82,7 +82,10 @@ markdown_extensions:
 # Pages tree
 nav:
   - Home: 'index.md'
-  - About me: 'author.md'
-  - Bookmarks: 'posts/bookmarks.md'
+  - Bookmarks:
+    - Links: 'posts/bookmarks.md'
+    - CS211: 'posts/stanford-online-ai.md'
   - Agentic AI:
     - Agno Framework: 'posts/agentic-ai-w-agno.md'
+  - About me: 'author.md'
+  
