@@ -1,4 +1,4 @@
-# About the Author :bust_in_silhouette:
+# About the Author
 
 ![Hafizur Rahman photo](assets/img/photo.jpg)
 
