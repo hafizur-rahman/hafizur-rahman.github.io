@@ -6,8 +6,16 @@ Building dependable systems usually involves several major components, with a fo
 * **Workflow Orchestration** - Connecting Agents: With individual agents defined, a system needs to manage how they work together. 'Workflow orchestration' logic, also implemented in Python, would handle the sequence of operations, the flow of information between agents, and the overall execution of multi-agent processes. While various tools can provide these pieces, understanding how to conceptually structure these components in Python offers deep insight into their functionality.
 
 ### Agentic Workflow Patterns
+
+[Design Patterns in Agentic AI Workflow](https://pub.towardsai.net/5-design-patterns-in-agentic-ai-workflow-c972c83f77e4)
+
 * Prompt chaining
+    * https://www.datacamp.com/tutorial/prompt-chaining-llm
+    * https://www.ibm.com/think/topics/prompt-chaining
+    * https://www.geeksforgeeks.org/artificial-intelligence/prompt-chaining/
 * Routing
+    * 
+    * https://www.patronus.ai/ai-agent-development/ai-agent-routing
 * Parallelization
 * Evaluator-Optimizer
 * Orchestrator-Workers
