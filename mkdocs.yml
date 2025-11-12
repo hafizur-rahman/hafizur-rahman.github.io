@@ -26,27 +26,34 @@ theme:
     - search.share
     - toc.follow
     - content.code.copy
+  
   palette:
-    - scheme: default
-      primary: indigo
-      accent: indigo
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      primary: teal
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      primary: teal
+      scheme: default 
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
-    - scheme: slate
-      primary: indigo
-      accent: indigo
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      primary: teal
+      scheme: slate
       toggle:
         icon: material/brightness-4
-        name: Switch to light mode
-
-nav:
-  - Home: index.md
-  - Getting Started: getting-started.md
-  - API Reference: api.md
+        name: Switch to system preference
 
 plugins:
   - search
+  - mermaid2
   - git-revision-date-localized:
       enable_creation_date: true
       type: timeago
@@ -70,3 +77,6 @@ markdown_extensions:
 nav:
   - Home: 'index.md'
   - About me: 'author.md'
+  - Bookmarks: 'posts/bookmarks.md'
+  - Agentic AI:
+    - Agno Framework: 'posts/agentic-ai-w-agno.md'
