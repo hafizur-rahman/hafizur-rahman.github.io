@@ -1,0 +1,72 @@
+# Page information
+site_name: Thoughts in IT
+site_url: https://hafizur-rahman.github.io/
+site_author: Hafizur Rahman
+site_description: >-
+  My journey in Cloud, Big Data and AI.
+
+# Copyright
+copyright: >
+  Copyright &copy; 2025 Hafizur Rahman
+
+# Repository
+# repo_url: https://github.com/hafizur-rahman/hafizur-rahman.github.io
+# repo_name: hafizur-rahman/hafizur-rahman.github.io
+
+# Configuration
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.top
+    - search.highlight
+    - search.share
+    - toc.follow
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - API Reference: api.md
+
+plugins:
+  - search
+  - git-revision-date-localized:
+      enable_creation_date: true
+      type: timeago
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - attr_list
+  - md_in_html
+
+# Pages tree
+nav:
+  - Home: 'index.md'
+  - About me: 'author.md'
