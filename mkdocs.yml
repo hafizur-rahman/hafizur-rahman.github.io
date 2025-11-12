@@ -82,11 +82,15 @@ markdown_extensions:
 # Pages tree
 nav:
   - Home: 'index.md'
+  
+  - Agentic AI:
+    - Agent Types: 'posts/agent-types.md'
+    - Agentic Systems: 'posts/agentic-systems.md'
+    - Agno Framework: 'posts/agentic-ai-w-agno.md'
+
   - Bookmarks:
     - Links: 'posts/bookmarks.md'
     - CS211: 'posts/stanford-online-ai.md'
-  - Agentic AI:
-    - Agent Types: 'posts/agent-types.md'
-    - Agno Framework: 'posts/agentic-ai-w-agno.md'
+  
   - About me: 'author.md'
   
