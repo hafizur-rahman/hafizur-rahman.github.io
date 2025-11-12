@@ -11,6 +11,7 @@ Building dependable systems usually involves several major components, with a fo
 * [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents)
 * [Design Patterns in Agentic AI Workflow](https://pub.towardsai.net/5-design-patterns-in-agentic-ai-workflow-c972c83f77e4)
 * [Agentic Workflow & Patterns](https://javaaidev.com/docs/agentic-patterns/intro)
+* [AI Agent Architecture](https://fme.safe.com/guides/ai-agent-architecture/)
 
 #### Detailed Articles
 * Prompt chaining
