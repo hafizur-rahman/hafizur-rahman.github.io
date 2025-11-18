@@ -87,6 +87,7 @@ nav:
     - Agent Types: 'posts/agent-types.md'
     - Agentic Systems: 'posts/agentic-systems.md'
     - Agent State: 'posts/agent-state-memory.md'
+    - RAG vs Agentic RAG: 'posts/agentic-rag.md'
     - Agno Framework: 'posts/agentic-ai-w-agno.md'
 
   - Bookmarks:

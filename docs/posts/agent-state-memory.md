@@ -1,3 +1,5 @@
+**Disclaimer: Copied from Udacity Agentic AI Nanodegree**
+
 ## Agent State
 ### Managing Agent State with State Machines
 LLMs are stateless by default—each interaction is isolated, with no memory of prior prompts. But intelligent agents often need context to manage complex tasks. This requires state: a representation of what the agent knows and is doing during a task.
