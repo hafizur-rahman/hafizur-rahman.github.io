@@ -1,4 +1,5 @@
-References: 
+References:
+
 * [RAG vs. Agentic RAG](https://mljourney.com/rag-vs-agentic-rag-a-comprehensive-comparison/)
 * [DataCampt article](https://www.datacamp.com/blog/agentic-rag)
 * [NVIDIA Article](https://developer.nvidia.com/blog/traditional-rag-vs-agentic-rag-why-ai-agents-need-dynamic-knowledge-to-get-smarter/)
@@ -31,14 +32,17 @@ The final answer becomes nuanced, grounded, and explanatory — not just a surfa
 
 ### Planning and Flexible Workflows
 Agentic RAG agents don’t retrieve blindly. They plan:
+
 * When to retrieve (or skip retrieval entirely)
 * What to retrieve first (e.g., definitions, background, evidence)
 * How to integrate retrieved context across multiple steps
 
 Agents also inspect their results:
+
 * Do they match query keywords?
 * Do they answer “what” or “why” directly?
 * Can each claim be backed by a specific source?
+
 This self-monitoring guides whether to retry, pivot tools, or adapt strategy.
 
 ### Reflection and Retry Strategies
