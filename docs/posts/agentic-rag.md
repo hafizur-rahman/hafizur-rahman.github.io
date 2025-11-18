@@ -1,6 +1,9 @@
-**Disclaimer: Copied from Udacity Agentic AI Nanodegree**
+References: 
+* [RAG vs. Agentic RAG](https://mljourney.com/rag-vs-agentic-rag-a-comprehensive-comparison/)
+* [DataCampt article](https://www.datacamp.com/blog/agentic-rag)
+* [NVIDIA Article](https://developer.nvidia.com/blog/traditional-rag-vs-agentic-rag-why-ai-agents-need-dynamic-knowledge-to-get-smarter/)
 
-Refer to [RAG vs. Agentic RAG](https://mljourney.com/rag-vs-agentic-rag-a-comprehensive-comparison/)
+**Disclaimer: Copied from Udacity Agentic AI Nanodegree**
 
 ## From Passive Lookup to Active Reasoning: Building Agentic RAG
 Basic Retrieval-Augmented Generation (RAG) systems follow a simple pattern: accept a query, retrieve a few documents, and generate an answer. This works for straightforward questions but falls short in more complex scenarios. Agentic RAG enhances this by giving agents the ability to reflect, retry, and refine — transforming retrieval from a static tool into an active part of the agent’s reasoning loop.
