@@ -1,4 +1,4 @@
-## LangChain Retrievers
+## Retrievers
 A retriever is an interface designed to return documents based on an unstructured query. Unlike a vector store, which stores and retrieves documents, a retriever's primary function is to find and return relevant documents. While vector stores can serve as the backbone of a retriever, there are various other types of retrievers that can be used as well.
 
 Retrievers take a string `query` as input and output a list of `Documents`.
