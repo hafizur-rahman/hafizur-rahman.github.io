@@ -8,9 +8,26 @@ DPR is to represent both questions and document passages as dense vectors in a s
 
 DPR differ from BERT in training, which focuses on contrastive learning for retrieving relevant passages, while BERT is more general-purpose, handling various NLP tasks.
 
-### How does Dense Passage Retrieval work?
-The architecture of DPR consists of two primary components: the **query encoder** and the **passage encoder**. These encoders are typically implemented using transformer-based models like BERT (Bidirectional Encoder Representations from Transformers).
+### DPR question encoder and tokenizer
+The Dense Passage Retriever (DPR) is instrumental in effectively retrieving relevant documents or passages for a given question.
 
+- **Question encoder**: The DPR question encoder is designed to convert questions into dense vector embeddings. This process enhances the system's ability to efficiently match and retrieve relevant content from a vast corpus, which is vital for answering queries accurately.
+
+- **Tokenizer**: The tokenizer for the DPR question encoder plays a crucial role in preparing input questions by:
+  - **Standardizing text**: It converts raw text into a standardized sequence of token IDs.
+  - **Processing inputs**: These token IDs are then processed by the question encoder to produce embeddings that effectively represent the semantic intent of the questions.
+ 
+#### Distinguishing DPR question and context components
+
+While both the DPR question encoder and DPR context encoder serve crucial roles within the DPR framework, they are optimized for different aspects of the retrieval process:
+
+- **DPR question encoder and tokenizer**: These components are specifically tuned to process and encode queries (questions). The question encoder transforms questions into dense embeddings, which are used to search through a corpus for the most relevant documents. The corresponding tokenizer standardizes the questions to ensure they are correctly formatted for the encoder.
+
+- **DPR context encoder and tokenizer**: In contrast, the context encoder and its tokenizer are focused on encoding the potential answer passages or documents. This encoder creates embeddings from extensive texts, allowing the system to compare these with question embeddings to find the best match.
+
+These encoders are typically implemented using transformer-based models like BERT (Bidirectional Encoder Representations from Transformers).
+
+### How does Dense Passage Retrieval work?
 Here's a step-by-step breakdown of how DPR operates:
 
 1. **Encoding Queries and Passages**
