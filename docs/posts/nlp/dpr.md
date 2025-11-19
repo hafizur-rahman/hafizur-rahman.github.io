@@ -6,8 +6,10 @@ Dense Passage Retrieval is a neural retrieval method designed to retrieve releva
 
 DPR is to represent both questions and document passages as dense vectors in a shared embedding space. By doing so, it allows for efficient computation of semantic similarity between a query and potential answer passages, enabling the system to identify the most relevant documents even when they do not contain exact keyword matches.
 
+DPR differ from BERT in training, which focuses on contrastive learning for retrieving relevant passages, while BERT is more general-purpose, handling various NLP tasks.
+
 ### How does Dense Passage Retrieval work?
-The architecture of DPR consists of two primary components: the query encoder and the passage encoder. These encoders are typically implemented using transformer-based models like BERT (Bidirectional Encoder Representations from Transformers).
+The architecture of DPR consists of two primary components: the **query encoder** and the **passage encoder**. These encoders are typically implemented using transformer-based models like BERT (Bidirectional Encoder Representations from Transformers).
 
 Here's a step-by-step breakdown of how DPR operates:
 
@@ -39,11 +41,11 @@ While DPR offers significant advantages over traditional keyword-based retrieval
 
 * **High Computational Costs**: Training DPR requires powerful GPUs and large-scale datasets, making it resource-intensive.
 
-    **Solution**: Efficient training techniques like knowledge distillation and model pruning can help reduce computational overhead.
+    **Solution**: Efficient training techniques like **knowledge distillation** and **model pruning** can help reduce computational overhead.
 
 * **Need for High-Quality Training Data**: The performance of DPR depends on well-labeled datasets with relevant query-passage pairs.
 
-    **Solution**: Techniques like weak supervision and semi-supervised learning can help generate high-quality training data.
+    **Solution**: Techniques like **weak supervision** and **semi-supervised learning** can help generate high-quality training data.
 
 * **Scalability in Large Datasets**: Despite using Approximate Nearest Neighbor (ANN) search, DPR still faces challenges in real-time retrieval for massive datasets.
 
