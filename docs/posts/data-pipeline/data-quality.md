@@ -55,8 +55,8 @@ Below is a **production-ready implementation plan** for Data Quality (DQ) rules 
 | **Data Type Consistency** | `order_date` must be ISO 8601 format (e.g., `2023-10-05`).               | PySpark `.withColumn` + Regex | Prevents parsing errors in analytics tools (e.g., QuickSight).                    |
 
 **Implementation**:  
-* **Glue Data Catalog** stores DQ rules as table properties (e.g., `silver.customer_data.dq_rules`).  
-* **PySpark DQ Script** (executed in Glue ETL):  
+- **Glue Data Catalog** stores DQ rules as table properties (e.g., `silver.customer_data.dq_rules`).  
+- **PySpark DQ Script** (executed in Glue ETL):  
   ```python
   # Example: Business rule validation
   from pyspark.sql import functions as F
@@ -65,7 +65,7 @@ Below is a **production-ready implementation plan** for Data Quality (DQ) rules 
   if silver_df.filter(F.col("order_amount") < 0).count() / silver_df.count() > 0.01:
       raise ValueError("Invalid order amounts > 1%")
   ```
-* **Failure Handling**: 
+- **Failure Handling**:  
   - Pipeline stops → S3 `bronze/failed/` bucket (with error details)  
   - CloudWatch Alarm → SNS notification to Data Governance team  
 
