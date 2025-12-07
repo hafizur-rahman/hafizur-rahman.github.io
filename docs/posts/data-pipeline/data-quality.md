@@ -18,7 +18,8 @@ Below is a **production-ready implementation plan** for Data Quality (DQ) rules 
 
 ### **Implementation: Data Quality Rules by Layer**
 #### **1. Bronze Layer (Raw Ingestion)**  
-*Goal: Ensure raw data arrives intact, unmodified, and cataloged.*  
+*Goal: Ensure raw data arrives intact, unmodified, and cataloged.* 
+
 | **Rule Type**       | **Rule**                                                                 | **AWS Service**         | **Why It Matters**                                                                 |
 |----------------------|--------------------------------------------------------------------------|-------------------------|----------------------------------------------------------------------------------|
 | **File Integrity**   | All files must have non-zero size; no empty directories.                  | S3 Event Notifications + Lambda | Prevents broken pipelines from empty source systems.                               |
@@ -45,6 +46,7 @@ Below is a **production-ready implementation plan** for Data Quality (DQ) rules 
 
 #### **2. Silver Layer (Cleansed & Validated)**  
 *Goal: Enforce business rules, handle nulls, and resolve inconsistencies.*  
+
 | **Rule Type**           | **Rule**                                                                 | **AWS Service**         | **Why It Matters**                                                                 |
 |--------------------------|--------------------------------------------------------------------------|-------------------------|----------------------------------------------------------------------------------|
 | **Business Validity**    | `order_amount > 0` (for sales data); `customer_age >= 18` (for marketing). | Glue ETL + PySpark DQ Checks | Prevents invalid analytics (e.g., negative revenue).                               |
@@ -71,6 +73,7 @@ Below is a **production-ready implementation plan** for Data Quality (DQ) rules 
 
 #### **3. Gold Layer (Analytics-Ready)**  
 *Goal: Ensure data is consistent for business reporting and AI/ML.*  
+
 | **Rule Type**           | **Rule**                                                                 | **AWS Service**         | **Why It Matters**                                                                 |
 |--------------------------|--------------------------------------------------------------------------|-------------------------|----------------------------------------------------------------------------------|
 | **Aggregation Consistency** | `daily_active_users` must equal sum of `user_sessions` per day.           | Athena + QuickSight DQ | Prevents conflicting metrics in executive dashboards.                             |
@@ -100,6 +103,7 @@ Below is a **production-ready implementation plan** for Data Quality (DQ) rules 
 ---
 
 ### **Governance & Security Integration**
+
 | **Component**               | **Implementation**                                                                 | **Governance Benefit**                                                                 |
 |-----------------------------|----------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|
 | **Metadata Catalog**        | All DQ rules stored in **Glue Data Catalog** (as table properties).              | Auditable trail for compliance (e.g., SOC 2, ISO 27001).                             |
