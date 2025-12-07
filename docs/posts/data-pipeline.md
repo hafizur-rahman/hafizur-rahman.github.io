@@ -24,13 +24,15 @@ Here's a comprehensive, production-ready implementation of **metadata management
 
 ### **Implementation: Metadata & Cataloging with Lake Formation**
 #### **1. Centralized Catalog: AWS Lake Formation** (Replaces Glue Data Catalog for governance)
+
 - **Why Lake Formation?**  
-  - Native integration with S3, Glue, Athena, and IAM.
-  - **Fine-grained access control** (row/column-level security).
-  - **Automated metadata ingestion** via crawlers.
-  - **Business glossary** support via custom tags.
+    - Native integration with S3, Glue, Athena, and IAM.
+    - **Fine-grained access control** (row/column-level security).
+    - **Automated metadata ingestion** via crawlers.
+    - **Business glossary** support via custom tags.
 
 #### **2. Metadata Management Strategy by Layer**
+
 | **Layer** | **Metadata Capture** | **Implementation** |
 |-----------|----------------------|-------------------|
 | **Bronze** | • Source system (API, DB, IoT)<br>• Ingestion timestamp<br>• File checksums<br>• Raw schema (auto-discovered) | - **Crawler Configuration**: `Lake Formation Crawler` targeting `s3://<bucket>/bronze/`<br>- **Custom Properties**: `source_system`, `ingest_type` (batch/streaming), `file_format` (Parquet/JSON) |
