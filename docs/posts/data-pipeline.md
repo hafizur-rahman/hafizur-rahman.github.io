@@ -124,17 +124,17 @@ client.add_tags_to_resource(
 
 ### **Why This Solution Wins**
 1. **Unified Catalog**  
-   - Lake Formation replaces fragmented Glue Data Catalog with **built-in governance** (no custom metadata DB needed).
+    - Lake Formation replaces fragmented Glue Data Catalog with **built-in governance** (no custom metadata DB needed).
 2. **Medallion Alignment**  
-   - Metadata evolves with the layer:  
+    - Metadata evolves with the layer:  
      *Bronze* (raw) → *Silver* (cleaned) → *Gold* (business-ready).
 3. **AI/ML Ready**  
-   - **Feature Store Integration**: Gold layer metadata links to SageMaker Feature Store (`feature_store: "l2c_feature_group"`).
+    - **Feature Store Integration**: Gold layer metadata links to SageMaker Feature Store (`feature_store: "l2c_feature_group"`).
    - **Data Quality**: Quality scores in catalog enable ML engineers to trust data.
 4. **Scalability**  
-   - Lake Formation scales to **100K+ tables** (unlike Glue Data Catalog).
+    - Lake Formation scales to **100K+ tables** (unlike Glue Data Catalog).
 5. **Compliance**  
-   - **GDPR/CCPA**: Column masking + audit trails via Lake Formation.
+    - **GDPR/CCPA**: Column masking + audit trails via Lake Formation.
 
 ---
 
