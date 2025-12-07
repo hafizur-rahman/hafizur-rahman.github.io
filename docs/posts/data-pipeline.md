@@ -888,21 +888,22 @@ Below is a precise, actionable framework for **ensuring governance and access co
 
 ---
 
-### **1. Audit AWS S3 Bucket Policies & Access Controls**  
-**How:**
+### **1. Audit AWS S3 Bucket Policies & Access Controls**
+
+* **How:**
     - Use **AWS Config** with managed rules (`s3-bucket-public-read-prohibited`, `s3-bucket-public-write-prohibited`, `s3-bucket-ssl-requests-only`) to **automatically detect misconfigurations** (e.g., public access, insecure encryption).  
     - Validate **bucket policies** and **ACLs** via **AWS Security Hub** (aggregates findings from Config, GuardDuty, etc.) and **AWS IAM Access Analyzer** (identifies unintended access to S3 buckets).  
     - **Critical Check:** Ensure `s3:PutObject`/`s3:GetObject` permissions are restricted to specific IAM roles (not `*` or `Everyone`), using **IAM conditions** like `aws:SecureTransport` (enforces TLS).  
 
-> *Example:*  
-> ```json
-> {
->   "Effect": "Deny",
->   "Action": "s3:*",
->   "Resource": "arn:aws:s3:::central-data-repo/*",
->   "Condition": { "Bool": { "aws:SecureTransport": false } }
-> }
-> ```
+    > *Example:*  
+    > ```json
+    > {
+    >   "Effect": "Deny",
+    >   "Action": "s3:*",
+    >   "Resource": "arn:aws:s3:::central-data-repo/*",
+    >   "Condition": { "Bool": { "aws:SecureTransport": false } }
+    > }
+    > ```
 
 ---
 
