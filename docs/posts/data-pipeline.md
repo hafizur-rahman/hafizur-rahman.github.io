@@ -1081,9 +1081,9 @@ To ensure robust governance and access control for the **External Partner** role
 ### **2. Mandatory Metadata & Data Classification (Governance Enforcement)**
 - **Pre-Ingestion Validation via S3 Event + Lambda**:  
     - S3 `PutObject` events trigger a **Lambda function** that:  
-    1. Validates required tags (e.g., `DataClassification`, `RetentionPeriod`, `OwnerPartnerID`).  
-    2. **Rejects upload** if tags are missing (HTTP 400 error).  
-    3. Logs failure to CloudWatch for audit trails.  
+        1. Validates required tags (e.g., `DataClassification`, `RetentionPeriod`, `OwnerPartnerID`).  
+        2. **Rejects upload** if tags are missing (HTTP 400 error).  
+        3. Logs failure to CloudWatch for audit trails.  
     - *Why?* Ensures compliance with "apply enterprise-standard metadata" and "data classification" responsibilities.  
     - **Example Tag Requirements**:  
     ```markdown
