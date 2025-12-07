@@ -204,6 +204,13 @@ Below is a **practical, AWS-native implementation plan** for ensuring governance
 
 ## Domain Owner
 ### Core Responsibilities
+* Define and enforce data governance policies within the domain, including data classification, retention, and compliance with regulatory standards
+* Manage metadata and maintain the data catalog (e.g., AWS Glue Data Catalog) for domain-specific assets, ensuring accurate documentation of data lineage and usage
+* Collaborate with data engineering teams to design and validate ingestion pipelines (batch/streaming) that align with domain requirements and AWS storage patterns (e.g., S3 for structured/unstructured data)
+* Implement and monitor access controls using AWS IAM roles, S3 bucket policies, and encryption to ensure secure, role-based data access
+* Ensure data quality through domain-specific metrics, validation rules, and integration with monitoring tools (e.g., AWS CloudWatch)
+* Document domain data assets, including schema definitions, usage guidelines, and business context for stakeholders
+
 Below is a **concise, action-oriented implementation plan** for ensuring governance and access control for the **Domain Owner** role in an **AWS-centric architecture** (S3 as the core storage layer), aligned with your responsibilities. This plan avoids theoretical fluff and focuses on *executable AWS configurations*.
 
 ---
@@ -259,9 +266,11 @@ Below is a **concise, action-oriented implementation plan** for ensuring governa
 ---
 
 ### **3. Access Control (Least Privilege + Auditability)**  
-*(Aligned with "Implement and monitor access controls")*  
-| **Control**                | **AWS Implementation**                                                                 | **Domain Owner Action**                                  |
-|----------------------------|--------------------------------------------------------------------------------------|----------------------------------------------------------|
+
+*(Aligned with "Implement and monitor access controls")*
+
+| **Control**  | **AWS Implementation**    | **Domain Owner Action**  |
+|----------------------------|-------------------------------|--------------------------|
 | **Least-Privilege Access** | **IAM Roles** (e.g., `domain-data-reader`) + **S3 Bucket Policies** (deny all except via IAM) | *Define roles in AWS IAM* (e.g., `finance-domain-reader`) with S3 permissions scoped to `s3:ListBucket` on `s3://domain-bucket/finance/` |
 | **Encryption**             | **S3 SSE-KMS** (Customer-managed keys in AWS KMS) + **TLS 1.2+** for data in transit | *Require KMS key policies* to restrict key usage to domain IAM roles only |
 | **Audit & Monitoring**     | **AWS CloudTrail** (log all S3/IAM actions) + **CloudWatch Alerts** for policy changes | *Set up CloudWatch alarms*: `New IAM role created`, `S3 bucket policy modified` |
@@ -329,6 +338,11 @@ Below is a **concise, action-oriented implementation plan** for ensuring governa
 
 ## Data Engineer
 ### Core Responsibilities
+* Design and implement data storage solutions (e.g., AWS S3) for structured and unstructured data
+* Develop and maintain batch and streaming data ingestion pipelines
+* Implement metadata management and data cataloging (e.g., AWS Glue Data Catalog)
+* Enforce data governance policies, access controls, and security protocols (encryption, IAM roles)'
+
 Here's a precise, implementation-focused strategy for ensuring governance and access control **specifically for the Data Engineer role** in an AWS environment, aligned with their responsibilities and AWS best practices:
 
 ---
@@ -446,6 +460,13 @@ This approach ensures **the Data Engineer implements security *by design***, not
 
 ## Analyst
 ### Core Responsibilities
+* Utilize data catalog to discover, understand, and access structured/unstructured datasets
+* Perform exploratory data analysis (EDA) and generate insights from centralized data repository
+* Ensure compliance with data governance policies and access controls during data usage
+* Collaborate with data engineers to refine data requirements and quality for analytics
+* Validate data quality, accuracy, and relevance for analytical use cases
+* Create and maintain reports, dashboards, and visualizations to support business decisions
+
 Here's a precise, actionable governance and access control strategy for the **Analyst** role, aligned with AWS best practices and designed to enforce security *while enabling productivity*. I'll map each responsibility to specific controls:
 
 ---
@@ -544,6 +565,13 @@ Analysts **never see unauthorized data**, **never work with invalid data**, and 
 
 ## Data Scientists
 ### Core Responsibilities
+* Analyze structured and unstructured data stored in centralized repositories (e.g., AWS S3, Azure Data Lake) to derive actionable insights for business decisions
+* Develop, train, and deploy machine learning models using AWS AI/ML services (e.g., SageMaker) leveraging curated datasets from the data catalog
+* Collaborate with data engineers to refine data pipelines and ensure data quality for model training
+* Utilize metadata and data catalog to discover, understand, and validate data sources while adhering to governance policies
+* Ensure compliance with data governance frameworks and access controls when processing sensitive or regulated data
+* Document model performance metrics, limitations, and business impact for cross-functional stakeholders
+
 To ensure robust governance and access control for **Data Scientists** in a centralized AWS environment (S3/Data Lake), implement a **multi-layered, policy-driven approach** that aligns with their responsibilities while enforcing security, compliance, and data lineage. Below is a precise, actionable solution leveraging AWS-native services:
 
 ---
@@ -640,6 +668,14 @@ To ensure robust governance and access control for **Data Scientists** in a cent
 
 ## DevOps Engineer
 ### Core Responsibilities
+* Automate infrastructure deployment for AWS S3 and Data Lake using Infrastructure as Code (IaC) tools
+* Implement CI/CD pipelines for data ingestion and processing workflows
+* Enforce security and access controls through IAM policies, encryption, and S3 bucket configurations
+* Monitor system performance and pipeline execution using AWS CloudWatch and logging services
+* Configure S3 lifecycle policies to optimize storage costs and ensure compliance
+* Design and maintain scalable, high-availability data storage architecture across AWS regions
+* Provision and manage infrastructure for metadata management tools like AWS Glue Data Catalog
+
 Here's a precise, actionable governance and access control strategy for the **DevOps Engineer role**, mapped directly to their responsibilities and AWS best practices. This ensures **enforcement via IaC** (not manual configuration) and aligns with enterprise data governance standards:
 
 ---
@@ -838,6 +874,16 @@ This strategy ensures **governance is embedded in infrastructure code**, not dep
 
 ## Security Auditor
 ### Core Responsibilities
+* Audit AWS S3 bucket policies, encryption settings, and access controls to ensure compliance with security policies
+* Verify IAM roles and permissions adhere to the principle of least privilege
+* Validate encryption of data at rest (S3 SSE-KMS) and in transit (TLS)
+* Review CloudTrail logs and S3 access logs for unauthorized access attempts
+* Ensure data classification metadata aligns with access control policies for sensitive data
+* Confirm compliance with regulatory standards (e.g., GDPR, HIPAA) through security audits
+* Assess third-party integrations and data sharing protocols for security risks
+* Conduct periodic security audits and provide actionable recommendations for remediation
+* Verify data masking and anonymization practices for personally identifiable information (PII) in analytics pipelines
+
 Below is a precise, actionable framework for **ensuring governance and access control** specifically for the **Security Auditor role** in an AWS S3-based centralized data repository, aligned with all listed responsibilities. This leverages AWS-native services and best practices to automate, validate, and audit compliance.
 
 ---
@@ -980,6 +1026,13 @@ This framework ensures the Security Auditor can **automate, validate, and prove 
 
 ## External Partner
 ### Core Responsibilities
+* Comply with enterprise data governance policies, including data classification, retention, and handling protocols
+* Securely ingest data via AWS S3 using encryption (in transit and at rest) and approved IAM roles
+* Apply enterprise-standard metadata tags and documentation to all data assets submitted
+* Adhere to enterprise-defined ingestion methods (batch/streaming) for data transfer
+* Ensure data is not processed or stored outside approved AWS services
+* Participate in security audits and provide necessary documentation as required
+
 To ensure robust governance and access control for the **External Partner** role while meeting all responsibilities in the scenario, implement the following **AWS-native, zero-trust security controls**:
 
 ---
