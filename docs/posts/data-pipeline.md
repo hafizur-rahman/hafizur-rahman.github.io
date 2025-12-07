@@ -582,13 +582,13 @@ To ensure robust governance and access control for **Data Scientists** in a cent
 - **Implementation**:
     - **Catalog Metadata**: Tag all datasets in Lake Formation with **business context** (e.g., `BusinessUnit=Finance`, `DataClassification=PII`, `Regulation=HIPAA`) and **usage policies** (e.g., `Usage=ML_Training_Only`).
     - **Fine-Grained Permissions**: 
-    - Assign **IAM roles** (e.g., `DataScientist-Role`) to users via Lake Formation *data permissions*.
-    - Example:  
-        ```sql
-        GRANT SELECT ON TABLE finance_transactions TO `DataScientist-Role` 
-        WHERE DataClassification = 'Public' AND Usage = 'Analytics';
-        ```
-    - *Sensitive data (e.g., PII)* requires **explicit approval workflow** (via AWS SSO + AWS Step Functions) before access is granted.
+        - Assign **IAM roles** (e.g., `DataScientist-Role`) to users via Lake Formation *data permissions*.
+        - Example:  
+            ```sql
+            GRANT SELECT ON TABLE finance_transactions TO `DataScientist-Role` 
+            WHERE DataClassification = 'Public' AND Usage = 'Analytics';
+            ```
+        - *Sensitive data (e.g., PII)* requires **explicit approval workflow** (via AWS SSO + AWS Step Functions) before access is granted.
     - **Enforcement**: Lake Formation **blocks access** to datasets without required tags (e.g., `Regulation=HIPAA` datasets require a `HIPAA_Compliance_Check` approval).
 
 #### **2. Automated Compliance & Data Sensitivity Handling**
