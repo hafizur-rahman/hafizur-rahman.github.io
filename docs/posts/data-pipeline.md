@@ -889,10 +889,10 @@ Below is a precise, actionable framework for **ensuring governance and access co
 ---
 
 ### **1. Audit AWS S3 Bucket Policies & Access Controls**  
-**How:**  
-- Use **AWS Config** with managed rules (`s3-bucket-public-read-prohibited`, `s3-bucket-public-write-prohibited`, `s3-bucket-ssl-requests-only`) to **automatically detect misconfigurations** (e.g., public access, insecure encryption).  
-- Validate **bucket policies** and **ACLs** via **AWS Security Hub** (aggregates findings from Config, GuardDuty, etc.) and **AWS IAM Access Analyzer** (identifies unintended access to S3 buckets).  
-- **Critical Check:** Ensure `s3:PutObject`/`s3:GetObject` permissions are restricted to specific IAM roles (not `*` or `Everyone`), using **IAM conditions** like `aws:SecureTransport` (enforces TLS).  
+**How:**
+    - Use **AWS Config** with managed rules (`s3-bucket-public-read-prohibited`, `s3-bucket-public-write-prohibited`, `s3-bucket-ssl-requests-only`) to **automatically detect misconfigurations** (e.g., public access, insecure encryption).  
+    - Validate **bucket policies** and **ACLs** via **AWS Security Hub** (aggregates findings from Config, GuardDuty, etc.) and **AWS IAM Access Analyzer** (identifies unintended access to S3 buckets).  
+    - **Critical Check:** Ensure `s3:PutObject`/`s3:GetObject` permissions are restricted to specific IAM roles (not `*` or `Everyone`), using **IAM conditions** like `aws:SecureTransport` (enforces TLS).  
 
 > *Example:*  
 > ```json
@@ -908,18 +908,19 @@ Below is a precise, actionable framework for **ensuring governance and access co
 
 ### **2. Verify IAM Roles & Least Privilege**  
 **How:**  
-- **Audit IAM roles** using **AWS IAM Access Analyzer** to identify **over-permitted roles** (e.g., roles with `s3:*` instead of `s3:GetObject`).  
-- Enforce **least privilege** via **AWS IAM Identity Center (SSO)** for centralized role assignment, with **attribute-based access control (ABAC)** using S3 bucket tags (e.g., `data-classification=confidential`).  
-- **Validate via:**  
-  - `aws iam list-attached-role-policies --role-name DataAnalystRole`  
-  - **AWS CloudTrail** logs filtered for `IAMRole` events (e.g., `PutRolePolicy`).  
+    - **Audit IAM roles** using **AWS IAM Access Analyzer** to identify **over-permitted roles** (e.g., roles with `s3:*` instead of `s3:GetObject`).  
+    - Enforce **least privilege** via **AWS IAM Identity Center (SSO)** for centralized role assignment, with **attribute-based access control (ABAC)** using S3 bucket tags (e.g., `data-classification=confidential`).  
+    - **Validate via:**  
+        - `aws iam list-attached-role-policies --role-name DataAnalystRole`  
+        - **AWS CloudTrail** logs filtered for `IAMRole` events (e.g., `PutRolePolicy`).  
 
 > *Key Principle:* Roles must have **only required permissions** (e.g., `s3:GetObject` for analytics roles, not `s3:DeleteObject`).
 
 ---
 
-### **3. Validate Encryption (At Rest & In Transit)**  
-**How:**  
+### **3. Validate Encryption (At Rest & In Transit)**
+**How:** 
+
 | **Requirement**       | **AWS Service**                     | **Audit Method**                                                                 |
 |------------------------|-------------------------------------|----------------------------------------------------------------------------------|
 | **At Rest (SSE-KMS)**  | AWS KMS + S3 SSE-KMS                | Check KMS key policy (via **AWS KMS Key Policies**), verify `s3:PutObject` requires `kms:Encrypt` permission. |
@@ -931,31 +932,31 @@ Below is a precise, actionable framework for **ensuring governance and access co
 
 ### **4. Review CloudTrail & S3 Access Logs**  
 **How:**  
-- **Enable S3 Server Access Logging** to a **secure, encrypted S3 bucket** (e.g., `central-data-repo-audit-logs`).  
-- **Analyze logs** using **AWS CloudTrail Insights** and **Amazon Athena** (query logs for `s3:GetObject`/`s3:PutObject` with unusual IP addresses or times):  
-  ```sql
-  SELECT user_identity.arn, event_name, event_time 
-  FROM cloudtrail_logs 
-  WHERE event_name LIKE '%GetObject%' AND NOT user_identity.arn LIKE '%trusted-role%'
-  ```
-- **Alert on:** `s3:DeleteObject`, `s3:PutBucketPolicy`, or access from non-approved IP ranges (via **AWS GuardDuty**).
+    - **Enable S3 Server Access Logging** to a **secure, encrypted S3 bucket** (e.g., `central-data-repo-audit-logs`).  
+    - **Analyze logs** using **AWS CloudTrail Insights** and **Amazon Athena** (query logs for `s3:GetObject`/`s3:PutObject` with unusual IP addresses or times):  
+    ```sql
+    SELECT user_identity.arn, event_name, event_time 
+    FROM cloudtrail_logs 
+    WHERE event_name LIKE '%GetObject%' AND NOT user_identity.arn LIKE '%trusted-role%'
+    ```
+    - **Alert on:** `s3:DeleteObject`, `s3:PutBucketPolicy`, or access from non-approved IP ranges (via **AWS GuardDuty**).
 
 ---
 
 ### **5. Ensure Data Classification Metadata Aligns with Access Control**  
 **How:**  
-- **Tag S3 objects** with classification metadata (e.g., `data-classification=PII`, `data-classification=public`).  
-- **Enforce access via IAM conditions**:  
-  ```json
-  "Condition": {
-    "StringEquals": {
-      "s3:RequestObjectTag/data-classification": "confidential"
+    - **Tag S3 objects** with classification metadata (e.g., `data-classification=PII`, `data-classification=public`).  
+    - **Enforce access via IAM conditions**:  
+    ```json
+    "Condition": {
+        "StringEquals": {
+        "s3:RequestObjectTag/data-classification": "confidential"
+        }
     }
-  }
-  ```
-- **Audit via:**  
-  - **AWS Resource Groups Tag Editor** to validate tag consistency.  
-  - **AWS Lake Formation** (if used) to map tags to access policies.  
+    ```
+    - **Audit via:**  
+        - **AWS Resource Groups Tag Editor** to validate tag consistency.  
+        - **AWS Lake Formation** (if used) to map tags to access policies.  
 
 > *Example Policy:*  
 > `DataAnalystRole` can only access objects with `data-classification=public` or `data-classification=internal` (not `confidential`).
@@ -964,12 +965,12 @@ Below is a precise, actionable framework for **ensuring governance and access co
 
 ### **6. Confirm Regulatory Compliance (GDPR/HIPAA)**  
 **How:**  
-- **GDPR:**  
-  - Use **AWS Macie** to **automatically discover PII** (e.g., SSNs, emails) in S3 and **apply encryption/classification**.  
-  - **Audit:** Verify all PII is encrypted (SSE-KMS) and access logs are retained for 7+ years (via S3 lifecycle policies).  
-- **HIPAA:**  
-  - **Validate KMS keys** are **AWS KMS keys with key policies** meeting HIPAA requirements (e.g., `aws:PrincipalArn` restricted to HIPAA-compliant roles).  
-  - **Audit:** Use **AWS Artifact** to review AWS HIPAA compliance reports (e.g., BAA documentation).  
+    - **GDPR:**  
+        - Use **AWS Macie** to **automatically discover PII** (e.g., SSNs, emails) in S3 and **apply encryption/classification**.  
+        - **Audit:** Verify all PII is encrypted (SSE-KMS) and access logs are retained for 7+ years (via S3 lifecycle policies).  
+    - **HIPAA:**  
+        - **Validate KMS keys** are **AWS KMS keys with key policies** meeting HIPAA requirements (e.g., `aws:PrincipalArn` restricted to HIPAA-compliant roles).  
+        - **Audit:** Use **AWS Artifact** to review AWS HIPAA compliance reports (e.g., BAA documentation).  
 
 > *Note:* S3 alone isn’t HIPAA-compliant—**KMS key policies and data classification** are mandatory.
 
@@ -977,10 +978,10 @@ Below is a precise, actionable framework for **ensuring governance and access co
 
 ### **7. Assess Third-Party Integrations & Data Sharing**  
 **How:**  
-- **Audit all S3 access via third parties** (e.g., Snowflake, Tableau) using **AWS IAM Identity Center** (SSO) and **AWS Organizations Service Control Policies (SCPs)**.  
-- **Critical Check:**  
-  - Third-party roles must **not have S3 bucket policy access**—use **IAM roles with S3 bucket policies** restricted to specific prefixes (e.g., `s3:Prefix` for `data/external/`).  
-  - Validate **data sharing via AWS Lake Formation** (not S3 ACLs) with **row-level security**.  
+    - **Audit all S3 access via third parties** (e.g., Snowflake, Tableau) using **AWS IAM Identity Center** (SSO) and **AWS Organizations Service Control Policies (SCPs)**.  
+    - **Critical Check:**  
+        - Third-party roles must **not have S3 bucket policy access**—use **IAM roles with S3 bucket policies** restricted to specific prefixes (e.g., `s3:Prefix` for `data/external/`).  
+        - Validate **data sharing via AWS Lake Formation** (not S3 ACLs) with **row-level security**.  
 
 > *Example:*  
 > Snowflake must assume a role `arn:aws:iam::123456789012:role/snowflake-ingest` with `s3:GetObject` only for `s3://central-data-repo/external/`.
@@ -989,11 +990,11 @@ Below is a precise, actionable framework for **ensuring governance and access co
 
 ### **8. Conduct Periodic Audits & Remediation**  
 **How:**  
-- **Automate audits** with:  
-  - **AWS Security Hub** (aggregates findings from Config, GuardDuty, Macie).  
-  - **AWS Config Rules** (e.g., `s3-bucket-encryption-enabled`, `s3-bucket-public-access-blocked`).  
-- **Remediation:** Use **AWS Lambda** triggered by Config rules to auto-fix issues (e.g., disable public access).  
-- **Report:** Generate **AWS Audit Manager** reports for GDPR/HIPAA evidence.  
+    - **Automate audits** with:  
+        - **AWS Security Hub** (aggregates findings from Config, GuardDuty, Macie).  
+        - **AWS Config Rules** (e.g., `s3-bucket-encryption-enabled`, `s3-bucket-public-access-blocked`).  
+    - **Remediation:** Use **AWS Lambda** triggered by Config rules to auto-fix issues (e.g., disable public access).  
+    - **Report:** Generate **AWS Audit Manager** reports for GDPR/HIPAA evidence.  
 
 > *Example Workflow:*  
 > `Config Rule → Security Hub → Lambda Auto-Remediation → Audit Manager Report`
@@ -1002,17 +1003,18 @@ Below is a precise, actionable framework for **ensuring governance and access co
 
 ### **9. Verify Data Masking for PII**  
 **How:**  
-- **Do NOT rely on S3 for masking**—masking occurs in **data processing pipelines** (e.g., AWS Glue, Athena).  
-- **Audit pipeline logic** for:  
-  - **Glue Data Catalog** policies (e.g., `glue:TagResource` to enforce masking on PII columns).  
-  - **Athena queries** using `MASKING` functions (e.g., `MASKED(credit_card) AS masked_card`).  
-- **Validate via:**  
-  - **AWS CloudTrail** for `glue:UpdateTable`/`athena:StartQueryExecution` events on PII columns.  
-  - **AWS Macie** to confirm PII is masked in output datasets.  
+    - **Do NOT rely on S3 for masking**—masking occurs in **data processing pipelines** (e.g., AWS Glue, Athena).  
+    - **Audit pipeline logic** for:  
+        - **Glue Data Catalog** policies (e.g., `glue:TagResource` to enforce masking on PII columns).  
+        - **Athena queries** using `MASKING` functions (e.g., `MASKED(credit_card) AS masked_card`).  
+    - **Validate via:**  
+        - **AWS CloudTrail** for `glue:UpdateTable`/`athena:StartQueryExecution` events on PII columns.  
+        - **AWS Macie** to confirm PII is masked in output datasets.  
 
 ---
 
 ### **Why This Works**  
+
 - **Automated & Continuous:** Uses AWS-native tools (Config, Security Hub, Macie) for real-time auditing—not manual checks.  
 - **Regulatory-Ready:** Directly maps to GDPR/HIPAA requirements (e.g., KMS for encryption, Macie for PII discovery).  
 - **Least Privilege Enforced:** Tags + IAM conditions prevent "over-permissioned" access.  
