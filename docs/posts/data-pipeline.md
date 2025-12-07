@@ -130,8 +130,8 @@ client.add_tags_to_resource(
      *Bronze* (raw) → *Silver* (cleaned) → *Gold* (business-ready).
 3. **AI/ML Ready**  
     - **Feature Store Integration**: Gold layer metadata links to SageMaker Feature Store (`feature_store: "l2c_feature_group"`).
-   - **Data Quality**: Quality scores in catalog enable ML engineers to trust data.
-4. **Scalability**  
+    - **Data Quality**: Quality scores in catalog enable ML engineers to trust data.
+4. **Scalability**
     - Lake Formation scales to **100K+ tables** (unlike Glue Data Catalog).
 5. **Compliance**  
     - **GDPR/CCPA**: Column masking + audit trails via Lake Formation.
