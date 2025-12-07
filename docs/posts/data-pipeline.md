@@ -580,49 +580,49 @@ To ensure robust governance and access control for **Data Scientists** in a cent
 #### **1. Zero-Trust Data Access via AWS Lake Formation (Catalog-First Approach)**
 - **Why**: Replaces direct S3 access with a **centralized data catalog** (Lake Formation) as the *only* entry point. Data Scientists *never* interact directly with S3; they discover/ingest data **only through the catalog**.
 - **Implementation**:
-  - **Catalog Metadata**: Tag all datasets in Lake Formation with **business context** (e.g., `BusinessUnit=Finance`, `DataClassification=PII`, `Regulation=HIPAA`) and **usage policies** (e.g., `Usage=ML_Training_Only`).
-  - **Fine-Grained Permissions**: 
+    - **Catalog Metadata**: Tag all datasets in Lake Formation with **business context** (e.g., `BusinessUnit=Finance`, `DataClassification=PII`, `Regulation=HIPAA`) and **usage policies** (e.g., `Usage=ML_Training_Only`).
+    - **Fine-Grained Permissions**: 
     - Assign **IAM roles** (e.g., `DataScientist-Role`) to users via Lake Formation *data permissions*.
     - Example:  
-      ```sql
-      GRANT SELECT ON TABLE finance_transactions TO `DataScientist-Role` 
-      WHERE DataClassification = 'Public' AND Usage = 'Analytics';
-      ```
+        ```sql
+        GRANT SELECT ON TABLE finance_transactions TO `DataScientist-Role` 
+        WHERE DataClassification = 'Public' AND Usage = 'Analytics';
+        ```
     - *Sensitive data (e.g., PII)* requires **explicit approval workflow** (via AWS SSO + AWS Step Functions) before access is granted.
-  - **Enforcement**: Lake Formation **blocks access** to datasets without required tags (e.g., `Regulation=HIPAA` datasets require a `HIPAA_Compliance_Check` approval).
+    - **Enforcement**: Lake Formation **blocks access** to datasets without required tags (e.g., `Regulation=HIPAA` datasets require a `HIPAA_Compliance_Check` approval).
 
 #### **2. Automated Compliance & Data Sensitivity Handling**
 - **Data Sensitivity Classification**:
-  - Use **AWS Macie** to auto-classify S3 objects (PII, PHI, financial data) and **tag datasets** in Lake Formation.
-  - **Example**: A dataset containing `SSN` is auto-tagged `DataClassification=HighRisk`.
+    - Use **AWS Macie** to auto-classify S3 objects (PII, PHI, financial data) and **tag datasets** in Lake Formation.
+    - **Example**: A dataset containing `SSN` is auto-tagged `DataClassification=HighRisk`.
 - **Access Control Rules**:
-  - **Public datasets** (e.g., `DataClassification=Public`): **No approval needed** – accessible via catalog.
-  - **Regulated datasets** (e.g., `DataClassification=HIPAA`): 
-    - Require **data steward approval** (via AWS SSO) before access.
-    - **Auto-mask sensitive fields** in the catalog (e.g., show `SSN=XXXX` instead of actual values).
-    - **Audit trail**: All access attempts logged to **AWS CloudTrail**.
+    - **Public datasets** (e.g., `DataClassification=Public`): **No approval needed** – accessible via catalog.
+    - **Regulated datasets** (e.g., `DataClassification=HIPAA`): 
+        - Require **data steward approval** (via AWS SSO) before access.
+        - **Auto-mask sensitive fields** in the catalog (e.g., show `SSN=XXXX` instead of actual values).
+        - **Audit trail**: All access attempts logged to **AWS CloudTrail**.
 
 #### **3. Governance in Model Development & Deployment**
 - **SageMaker Integration**:
-  - **Data Validation**: Require datasets to be **approved in Lake Formation** before use in SageMaker.  
+    - **Data Validation**: Require datasets to be **approved in Lake Formation** before use in SageMaker.  
     *Example*: SageMaker model training fails if the dataset lacks `DataClassification=Public` or `Usage=ML_Training`.
-  - **Model Registry**: All models must be registered in **SageMaker Model Registry** with:
-    - **Data lineage**: Auto-attached dataset version/origin (from Lake Formation catalog).
-    - **Compliance tags**: `Regulation=HIPAA` or `DataClassification=PII` (enforces model access restrictions).
-  - **Access Control**: 
-    - Only users with `DataScientist-Role` *and* `ModelRegistry_Access` permission can deploy models.
-    - **No direct S3 access** to training data – all data flows through Lake Formation.
+    - **Model Registry**: All models must be registered in **SageMaker Model Registry** with:
+        - **Data lineage**: Auto-attached dataset version/origin (from Lake Formation catalog).
+        - **Compliance tags**: `Regulation=HIPAA` or `DataClassification=PII` (enforces model access restrictions).
+    - **Access Control**: 
+        - Only users with `DataScientist-Role` *and* `ModelRegistry_Access` permission can deploy models.
+        - **No direct S3 access** to training data – all data flows through Lake Formation.
 
 #### **4. Auditability & Policy Adherence**
 - **Real-Time Monitoring**:
-  - **AWS Config**: Track configuration drift (e.g., unintended S3 bucket public access).
-  - **AWS GuardDuty**: Detect anomalous data access patterns (e.g., Data Scientist accessing non-related datasets).
+    - **AWS Config**: Track configuration drift (e.g., unintended S3 bucket public access).
+    - **AWS GuardDuty**: Detect anomalous data access patterns (e.g., Data Scientist accessing non-related datasets).
 - **Compliance Reporting**:
-  - **AWS Audit Manager**: Generate automated reports for frameworks (GDPR, HIPAA) showing:
-    - Data sources used in models (via catalog lineage).
-    - Access logs for regulated data.
-    - Model versioning history (SageMaker registry).
-  - **Data Scientist Accountability**: Every model deployment must include **metadata** (e.g., `DataSources=finance_transactions_v3`, `ComplianceTags=HIPAA`) – enforced by SageMaker.
+    - **AWS Audit Manager**: Generate automated reports for frameworks (GDPR, HIPAA) showing:
+        - Data sources used in models (via catalog lineage).
+        - Access logs for regulated data.
+        - Model versioning history (SageMaker registry).
+    - **Data Scientist Accountability**: Every model deployment must include **metadata** (e.g., `DataSources=finance_transactions_v3`, `ComplianceTags=HIPAA`) – enforced by SageMaker.
 
 ---
 
