@@ -7,7 +7,16 @@ An enterprise needs a centralized repository for structured and unstructured dat
 * Implement metadata management and data cataloging.
 * Ensure governance and access control.
 
+
 ## Data Steward
+### Core Responsibilities
+* Establish and maintain data catalog entries for all structured and unstructured data assets
+* Define and enforce data quality standards and metrics across ingestion pipelines
+* Collaborate with security teams to implement and audit access controls and encryption policies
+* Ensure compliance with data governance policies and regulatory requirements (e.g., GDPR, CCPA)
+* Document metadata, including data lineage, business definitions, and usage policies
+* Resolve data quality issues in collaboration with data engineering and analytics teams
+
 Here's a precise, implementation-focused governance and access control strategy for the **Data Steward** role, aligned with AWS/Azure best practices and regulatory requirements. The solution ensures **separation of duties**, **auditability**, and **automated enforcement** while avoiding common pitfalls (e.g., giving stewards direct data access).
 
 
@@ -192,6 +201,9 @@ Below is a **practical, AWS-native implementation plan** for ensuring governance
 > This model ensures the Data Steward **drives governance** (not just documents it), while **security teams focus on infrastructure**. It’s the only way to scale governance for 1000s of data assets without slowing down analytics.
 
 **Final Note**: Avoid "governance by committee." Lake Formation’s UI makes it *easy* for stewards to act—no coding required. They focus on *business* (e.g., "This `customer_email` field is GDPR-protected") not *technical* (e.g., "Set S3 ACLs").
+
+## Domain Owner
+### Core Responsibilities
 Below is a **concise, action-oriented implementation plan** for ensuring governance and access control for the **Domain Owner** role in an **AWS-centric architecture** (S3 as the core storage layer), aligned with your responsibilities. This plan avoids theoretical fluff and focuses on *executable AWS configurations*.
 
 ---
@@ -314,6 +326,9 @@ Below is a **concise, action-oriented implementation plan** for ensuring governa
 6. [ ] **Document** everything in Glue Data Catalog (no external spreadsheets).  
 
 > This approach ensures **compliance by design**, not by exception—reducing audit failures by 80%+ in enterprise AWS deployments (based on AWS Well-Architected Framework benchmarks). The Domain Owner’s role becomes *enforcing technical controls*, not just writing policies.
+
+## Data Engineer
+### Core Responsibilities
 Here's a precise, implementation-focused strategy for ensuring governance and access control **specifically for the Data Engineer role** in an AWS environment, aligned with their responsibilities and AWS best practices:
 
 ---
@@ -428,6 +443,9 @@ Here's a precise, implementation-focused strategy for ensuring governance and ac
 ---
 
 This approach ensures **the Data Engineer implements security *by design***, not as an afterthought, while strictly adhering to AWS security best practices. All controls are **automated**, **auditable**, and **enforced via AWS-native tools** – eliminating manual errors and reducing attack surface. Governance is embedded into the infrastructure, not a separate process.
+
+## Analyst
+### Core Responsibilities
 Here's a precise, actionable governance and access control strategy for the **Analyst** role, aligned with AWS best practices and designed to enforce security *while enabling productivity*. I'll map each responsibility to specific controls:
 
 ---
@@ -523,6 +541,9 @@ Here's a precise, actionable governance and access control strategy for the **An
 Analysts **never see unauthorized data**, **never work with invalid data**, and **never bypass compliance** – while having a *frictionless experience* to do their job. This meets all responsibilities *without* slowing down analytics.  
 
 > 💡 **Pro Tip**: Start with **3 high-risk datasets** (e.g., `customer_data`, `financial_records`), implement the above, then scale. Measure time-to-insight before/after – you’ll see **30-50% faster EDA** due to pre-validated data.
+
+## Data Scientists
+### Core Responsibilities
 To ensure robust governance and access control for **Data Scientists** in a centralized AWS environment (S3/Data Lake), implement a **multi-layered, policy-driven approach** that aligns with their responsibilities while enforcing security, compliance, and data lineage. Below is a precise, actionable solution leveraging AWS-native services:
 
 ---
@@ -616,6 +637,9 @@ To ensure robust governance and access control for **Data Scientists** in a cent
 - **Compliance** is **proactive** – datasets with regulated data *cannot* be used without approval.
 
 > **Final Note**: This design ensures Data Scientists *adhere* to governance by making it **invisible during normal work** (for public data) but **mandatory for sensitive data** – directly addressing all responsibilities in the role description. No "governance overhead" – just *enforced* access.
+
+## DevOps Engineer
+### Core Responsibilities
 Here's a precise, actionable governance and access control strategy for the **DevOps Engineer role**, mapped directly to their responsibilities and AWS best practices. This ensures **enforcement via IaC** (not manual configuration) and aligns with enterprise data governance standards:
 
 ---
@@ -811,6 +835,9 @@ This strategy ensures **governance is embedded in infrastructure code**, not dep
 ✅ **Secure by design** (least privilege, encryption by default).  
 
 *No "security" is added later—it’s built into the infrastructure deployment pipeline.*
+
+## Security Auditor
+### Core Responsibilities
 Below is a precise, actionable framework for **ensuring governance and access control** specifically for the **Security Auditor role** in an AWS S3-based centralized data repository, aligned with all listed responsibilities. This leverages AWS-native services and best practices to automate, validate, and audit compliance.
 
 ---
@@ -950,6 +977,9 @@ Below is a precise, actionable framework for **ensuring governance and access co
 ---
 
 This framework ensures the Security Auditor can **automate, validate, and prove compliance** with zero manual effort for routine checks—directly addressing every responsibility in the role description. No Azure dependencies needed (AWS S3 is the solution).
+
+## External Partner
+### Core Responsibilities
 To ensure robust governance and access control for the **External Partner** role while meeting all responsibilities in the scenario, implement the following **AWS-native, zero-trust security controls**:
 
 ---
