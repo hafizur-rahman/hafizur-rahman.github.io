@@ -89,7 +89,7 @@ Resources:
 
 2. **Glue Catalog**  
     - Explicit `CreateTable`/`UpdateTable` allows cataloging structured/unstructured data (e.g., Parquet/JSON files in S3).  
-- `GetTable`/`GetDatabases` enables metadata discovery (e.g., `glue:GetTable` for Athena queries).
+    - `GetTable`/`GetDatabases` enables metadata discovery (e.g., `glue:GetTable` for Athena queries).
 
 3. **Kinesis for Streaming**  
     - `kinesis:PutRecord` is required to ingest data streams (e.g., logs from EC2).  
