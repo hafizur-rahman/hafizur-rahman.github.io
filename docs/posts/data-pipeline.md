@@ -348,9 +348,9 @@ Here's a precise, implementation-focused strategy for ensuring governance and ac
 ---
 
 ### **1. Storage Security (S3) - Enforcing Least Privilege & Encryption**
-- **Bucket Policies**:  
-  - Apply **deny-all public access** via `s3:BlockPublicAccess` (enforced at bucket level).  
-  - Use **bucket policies** to restrict access to *only* required services (e.g., Glue, Lambda) and *specific IAM roles* (e.g., `arn:aws:iam::123456789012:role/DataEngineer-ETL-Role`).  
+- **Bucket Policies**:
+    - Apply **deny-all public access** via `s3:BlockPublicAccess` (enforced at bucket level).
+    - Use **bucket policies** to restrict access to *only* required services (e.g., Glue, Lambda) and *specific IAM roles* (e.g., `arn:aws:iam::123456789012:role/DataEngineer-ETL-Role`).  
   *Example Policy Snippet*:  
   ```json
   {
@@ -367,10 +367,10 @@ Here's a precise, implementation-focused strategy for ensuring governance and ac
   }
   ```
 
-- **Encryption**:  
-  - **At rest**: Enforce **SSE-KMS** (AWS KMS keys) for all S3 buckets (not SSE-S3).  
-  - **In transit**: Require TLS 1.2+ via bucket policy (`"Condition": { "Bool": { "aws:SecureTransport": true } }`).  
-  - *Data Engineer Action*: Configure KMS keys with **key policies** granting *only* the Data Engineer IAM role (via `kms:Decrypt`/`kms:Encrypt`), and *never* grant `kms:Admin` access.
+- **Encryption**:
+    - **At rest**: Enforce **SSE-KMS** (AWS KMS keys) for all S3 buckets (not SSE-S3).
+    - **In transit**: Require TLS 1.2+ via bucket policy (`"Condition": { "Bool": { "aws:SecureTransport": true } }`).
+    - *Data Engineer Action*: Configure KMS keys with **key policies** granting *only* the Data Engineer IAM role (via `kms:Decrypt`/`kms:Encrypt`), and *never* grant `kms:Admin` access.
 
 ---
 
