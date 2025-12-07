@@ -428,13 +428,13 @@ Here's a precise, implementation-focused strategy for ensuring governance and ac
 
 ### **5. Audit & Compliance (Non-Negotiable)**
 - **CloudTrail + CloudWatch**:  
-  - **Enable logging** for all S3/Glue/Lake Formation API calls.  
-  - Create **CloudWatch Alarms** for:  
-    - `PutBucketPolicy` (to detect unauthorized bucket policy changes).  
-    - `CreateRole` (to prevent rogue IAM role creation).  
-- **Data Engineer Accountability**:  
-  - **All pipeline code** must include `aws:PrincipalArn` checks in IAM policies (prevents role escalation).  
-  - **No hard-coded credentials** – all secrets managed via **AWS Secrets Manager** (accessed via IAM roles).
+    - **Enable logging** for all S3/Glue/Lake Formation API calls.  
+    - Create **CloudWatch Alarms** for:  
+        - `PutBucketPolicy` (to detect unauthorized bucket policy changes).  
+        - `CreateRole` (to prevent rogue IAM role creation).  
+- **Data Engineer Accountability**:
+    - **All pipeline code** must include `aws:PrincipalArn` checks in IAM policies (prevents role escalation).  
+    - **No hard-coded credentials** – all secrets managed via **AWS Secrets Manager** (accessed via IAM roles).
 
 ---
 
@@ -473,9 +473,9 @@ Here's a precise, actionable governance and access control strategy for the **An
 
 ### **1. Data Classification & Metadata (Foundation for Governance)**
 - **Implement Data Sensitivity Tags** in AWS Lake Formation (or AWS Glue Data Catalog):  
-  - Tag datasets with **classification labels** (e.g., `PII`, `Confidential`, `Public`) during ingestion.  
-  - *Why?* Analysts see only data they’re authorized to access (e.g., `PII` datasets hidden from non-compliance roles).  
-  - *How?*  
+    - Tag datasets with **classification labels** (e.g., `PII`, `Confidential`, `Public`) during ingestion.  
+    - *Why?* Analysts see only data they’re authorized to access (e.g., `PII` datasets hidden from non-compliance roles).  
+    - *How?*  
     ```python
     # Example: Tagging a dataset during ingestion (via AWS Glue)
     glue_client.create_table(DatabaseName='analytics_db', TableInput={
@@ -499,32 +499,32 @@ Here's a precise, actionable governance and access control strategy for the **An
 
 ### **3. Access Request Workflow (User Experience)**
 - **Self-Service Access Requests via Data Catalog**:  
-  1. Analyst searches catalog → sees "Request Access" button on `Confidential` datasets.  
-  2. System auto-assigns request to **Data Owner** (e.g., Finance team lead) via **AWS SSO** approval flow.  
-  3. **Approval time limit** (e.g., 24 hours) enforced via **AWS Step Functions**.  
-  4. *No manual email/Slack requests* – all tracked in Lake Formation audit logs.  
-  > *Why?* Aligns with "Ensure compliance during data usage" – no ad-hoc access.
+    1. Analyst searches catalog → sees "Request Access" button on `Confidential` datasets.  
+    2. System auto-assigns request to **Data Owner** (e.g., Finance team lead) via **AWS SSO** approval flow.  
+    3. **Approval time limit** (e.g., 24 hours) enforced via **AWS Step Functions**.  
+    4. *No manual email/Slack requests* – all tracked in Lake Formation audit logs.  
+    > *Why?* Aligns with "Ensure compliance during data usage" – no ad-hoc access.
 
 ---
 
 ### **4. Data Quality & Validation (Pre-Access)**
 - **Automated Data Quality Gates** *before* access is granted:  
-  - **Great Expectations** (integrated with Glue) validates:  
+    - **Great Expectations** (integrated with Glue) validates:  
     - `Data completeness` (e.g., `>95% non-null` in `revenue` column).  
     - `Accuracy` (e.g., `revenue` must be `>0`).  
-  - *If checks fail*, access is **blocked** and data engineers notified.  
-  > *Why?* Directly supports "Validate data quality... for analytical use cases."
+    - *If checks fail*, access is **blocked** and data engineers notified.  
+    > *Why?* Directly supports "Validate data quality... for analytical use cases."
 
 ---
 
 ### **5. Collaboration & Compliance (Operational)**
 - **Shared Data Context in Catalog**:  
-  - Analysts see **data lineage** (e.g., "This dataset was cleaned by Data Engineer X on 2023-10-01").  
-  - **Annotations** from data engineers (e.g., "Use `revenue` column – `currency` field is inconsistent").  
+    - Analysts see **data lineage** (e.g., "This dataset was cleaned by Data Engineer X on 2023-10-01").  
+    - **Annotations** from data engineers (e.g., "Use `revenue` column – `currency` field is inconsistent").  
 - **Compliance Dashboard**:  
-  - **AWS QuickSight** dashboard shows:  
-    - `Data access trends` (e.g., "Finance Analysts accessed 15 datasets this week").  
-    - `Policy violations` (e.g., "3 failed attempts to query `ssn`").  
+    - **AWS QuickSight** dashboard shows:  
+        - `Data access trends` (e.g., "Finance Analysts accessed 15 datasets this week").  
+        - `Policy violations` (e.g., "3 failed attempts to query `ssn`").  
 
 ---
 
