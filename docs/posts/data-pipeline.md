@@ -908,7 +908,8 @@ Below is a precise, actionable framework for **ensuring governance and access co
 ---
 
 ### **2. Verify IAM Roles & Least Privilege**  
-**How:**  
+
+* **How:**  
     - **Audit IAM roles** using **AWS IAM Access Analyzer** to identify **over-permitted roles** (e.g., roles with `s3:*` instead of `s3:GetObject`).  
     - Enforce **least privilege** via **AWS IAM Identity Center (SSO)** for centralized role assignment, with **attribute-based access control (ABAC)** using S3 bucket tags (e.g., `data-classification=confidential`).  
     - **Validate via:**  
@@ -920,6 +921,7 @@ Below is a precise, actionable framework for **ensuring governance and access co
 ---
 
 ### **3. Validate Encryption (At Rest & In Transit)**
+
 **How:** 
 
 | **Requirement**       | **AWS Service**                     | **Audit Method**                                                                 |
@@ -932,7 +934,8 @@ Below is a precise, actionable framework for **ensuring governance and access co
 ---
 
 ### **4. Review CloudTrail & S3 Access Logs**  
-**How:**  
+
+* **How:**  
     - **Enable S3 Server Access Logging** to a **secure, encrypted S3 bucket** (e.g., `central-data-repo-audit-logs`).  
     - **Analyze logs** using **AWS CloudTrail Insights** and **Amazon Athena** (query logs for `s3:GetObject`/`s3:PutObject` with unusual IP addresses or times):  
     ```sql
@@ -945,7 +948,8 @@ Below is a precise, actionable framework for **ensuring governance and access co
 ---
 
 ### **5. Ensure Data Classification Metadata Aligns with Access Control**  
-**How:**  
+
+* **How:**  
     - **Tag S3 objects** with classification metadata (e.g., `data-classification=PII`, `data-classification=public`).  
     - **Enforce access via IAM conditions**:  
     ```json
@@ -965,7 +969,8 @@ Below is a precise, actionable framework for **ensuring governance and access co
 ---
 
 ### **6. Confirm Regulatory Compliance (GDPR/HIPAA)**  
-**How:**  
+
+* **How:**  
     - **GDPR:**  
         - Use **AWS Macie** to **automatically discover PII** (e.g., SSNs, emails) in S3 and **apply encryption/classification**.  
         - **Audit:** Verify all PII is encrypted (SSE-KMS) and access logs are retained for 7+ years (via S3 lifecycle policies).  
@@ -978,7 +983,8 @@ Below is a precise, actionable framework for **ensuring governance and access co
 ---
 
 ### **7. Assess Third-Party Integrations & Data Sharing**  
-**How:**  
+
+* **How:**  
     - **Audit all S3 access via third parties** (e.g., Snowflake, Tableau) using **AWS IAM Identity Center** (SSO) and **AWS Organizations Service Control Policies (SCPs)**.  
     - **Critical Check:**  
         - Third-party roles must **not have S3 bucket policy access**—use **IAM roles with S3 bucket policies** restricted to specific prefixes (e.g., `s3:Prefix` for `data/external/`).  
@@ -990,7 +996,8 @@ Below is a precise, actionable framework for **ensuring governance and access co
 ---
 
 ### **8. Conduct Periodic Audits & Remediation**  
-**How:**  
+
+* **How:**  
     - **Automate audits** with:  
         - **AWS Security Hub** (aggregates findings from Config, GuardDuty, Macie).  
         - **AWS Config Rules** (e.g., `s3-bucket-encryption-enabled`, `s3-bucket-public-access-blocked`).  
@@ -1003,7 +1010,8 @@ Below is a precise, actionable framework for **ensuring governance and access co
 ---
 
 ### **9. Verify Data Masking for PII**  
-**How:**  
+
+* **How:**  
     - **Do NOT rely on S3 for masking**—masking occurs in **data processing pipelines** (e.g., AWS Glue, Athena).  
     - **Audit pipeline logic** for:  
         - **Glue Data Catalog** policies (e.g., `glue:TagResource` to enforce masking on PII columns).  
