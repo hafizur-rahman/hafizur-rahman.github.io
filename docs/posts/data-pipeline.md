@@ -412,17 +412,17 @@ Here's a precise, implementation-focused strategy for ensuring governance and ac
 ---
 
 ### **4. Data Governance Enforcement**
-- **Automated Policy Checks**:  
-  - **AWS Lake Formation** for *fine-grained access control* (e.g., column-level security for PII data):  
-    - Data Engineers *configure* Lake Formation permissions via AWS Console/CLI (not via code).  
-    - *Example*: Restrict `ssn` column in a table to only `DataEngineer-Report-Role` (not the full pipeline role).  
-  - **AWS Data Catalog Policies**:  
+- **Automated Policy Checks**:
+    - **AWS Lake Formation** for *fine-grained access control* (e.g., column-level security for PII data):
+        - Data Engineers *configure* Lake Formation permissions via AWS Console/CLI (not via code).  
+        - *Example*: Restrict `ssn` column in a table to only `DataEngineer-Report-Role` (not the full pipeline role).  
+- **AWS Data Catalog Policies**:  
     - Use **Glue Data Catalog policies** to enforce metadata standards (e.g., "All tables must have `owner` tag").  
 
 - **Tagging Strategy**:  
-  - **Mandatory tags** for all S3 objects/pipelines:  
-    - `Owner`, `DataClassification`, `RetentionPeriod`, `Compliance=HIPAA/GDPR`.  
-  - *Data Engineer Action*: Embed tag enforcement in pipeline code (e.g., AWS SDK `PutObject` with tags) and validate via **AWS Config**.
+    - **Mandatory tags** for all S3 objects/pipelines:  
+        - `Owner`, `DataClassification`, `RetentionPeriod`, `Compliance=HIPAA/GDPR`. 
+    - *Data Engineer Action*: Embed tag enforcement in pipeline code (e.g., AWS SDK `PutObject` with tags) and validate via **AWS Config**.
 
 ---
 
