@@ -84,25 +84,25 @@ Resources:
 
 ### **Critical Design Decisions**
 1. **S3 Permissions**  
-   - `s3:PutBucketPolicy` + `s3:PutBucketEncryption` enable secure data access (e.g., enforcing encryption at rest).  
-   - `s3:PutObjectAcl` is included for legacy ACL-based access control (modern best practice uses bucket policies, but it’s retained for completeness).
+    - `s3:PutBucketPolicy` + `s3:PutBucketEncryption` enable secure data access (e.g., enforcing encryption at rest).  
+    - `s3:PutObjectAcl` is included for legacy ACL-based access control (modern best practice uses bucket policies, but it’s retained for completeness).
 
 2. **Glue Catalog**  
-   - Explicit `CreateTable`/`UpdateTable` allows cataloging structured/unstructured data (e.g., Parquet/JSON files in S3).  
-   - `GetTable`/`GetDatabases` enables metadata discovery (e.g., `glue:GetTable` for Athena queries).
+    - Explicit `CreateTable`/`UpdateTable` allows cataloging structured/unstructured data (e.g., Parquet/JSON files in S3).  
+- `GetTable`/`GetDatabases` enables metadata discovery (e.g., `glue:GetTable` for Athena queries).
 
 3. **Kinesis for Streaming**  
-   - `kinesis:PutRecord` is required to ingest data streams (e.g., logs from EC2).  
-   - `kinesis:DescribeStream` ensures stream health checks during pipeline setup.
+    - `kinesis:PutRecord` is required to ingest data streams (e.g., logs from EC2).  
+    - `kinesis:DescribeStream` ensures stream health checks during pipeline setup.
 
 4. **IAM for Security**  
-   - `iam:CreateRole` allows creating service roles (e.g., for Lambda access to S3).  
-   - `iam:AttachRolePolicy`/`iam:PutRolePolicy` enables attaching security policies (e.g., `AmazonS3ReadOnlyAccess` to a role).
+    - `iam:CreateRole` allows creating service roles (e.g., for Lambda access to S3).  
+    - `iam:AttachRolePolicy`/`iam:PutRolePolicy` enables attaching security policies (e.g., `AmazonS3ReadOnlyAccess` to a role).
 
 5. **No Over-Permission**  
-   - **No `s3:DeleteBucket`** – prevents accidental data loss.  
-   - **No `iam:DeletePolicy`** – avoids breaking security configurations.  
-   - **No `kinesis:DeleteStream`** – prevents pipeline disruption.
+    - **No `s3:DeleteBucket`** – prevents accidental data loss.  
+    - **No `iam:DeletePolicy`** – avoids breaking security configurations.  
+    - **No `kinesis:DeleteStream`** – prevents pipeline disruption.
 
 ---
 
