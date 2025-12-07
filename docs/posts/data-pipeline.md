@@ -1039,10 +1039,10 @@ To ensure robust governance and access control for the **External Partner** role
 
 ### **1. Federated Identity & Least-Privilege Access (Core Control)**
 - **Use AWS IAM Identity Center (SSO) with SAML 2.0 Federation**:  
-  - Partner’s identity provider (e.g., Okta, Azure AD) integrates with AWS IAM Identity Center.  
-  - Partner logs in via their *own* SSO portal → **temporary credentials** (1-hour session) are generated for the `ExternalPartnerIngestRole`.  
-  - *Why?* Eliminates long-term access keys, aligns with Zero Trust principles, and meets "approved IAM roles" requirement.  
-  - **IAM Role Policy Example**:  
+    - Partner’s identity provider (e.g., Okta, Azure AD) integrates with AWS IAM Identity Center.  
+    - Partner logs in via their *own* SSO portal → **temporary credentials** (1-hour session) are generated for the `ExternalPartnerIngestRole`.  
+    - *Why?* Eliminates long-term access keys, aligns with Zero Trust principles, and meets "approved IAM roles" requirement.  
+    - **IAM Role Policy Example**:  
     ```json
     {
         "Version": "2012-10-17",
@@ -1071,6 +1071,7 @@ To ensure robust governance and access control for the **External Partner** role
         ]
     }
     ```
+
     > ⚠️ **Key Enforcement**:  
     > - `Deny` clause blocks uploads *without* required metadata tags (e.g., `x-amz-meta-data-classification=Confidential`).  
     > - `s3:x-amz-server-side-encryption` enforces AES-256 encryption at rest.
@@ -1079,12 +1080,12 @@ To ensure robust governance and access control for the **External Partner** role
 
 ### **2. Mandatory Metadata & Data Classification (Governance Enforcement)**
 - **Pre-Ingestion Validation via S3 Event + Lambda**:  
-  - S3 `PutObject` events trigger a **Lambda function** that:  
+    - S3 `PutObject` events trigger a **Lambda function** that:  
     1. Validates required tags (e.g., `DataClassification`, `RetentionPeriod`, `OwnerPartnerID`).  
     2. **Rejects upload** if tags are missing (HTTP 400 error).  
     3. Logs failure to CloudWatch for audit trails.  
-  - *Why?* Ensures compliance with "apply enterprise-standard metadata" and "data classification" responsibilities.  
-  - **Example Tag Requirements**:  
+    - *Why?* Ensures compliance with "apply enterprise-standard metadata" and "data classification" responsibilities.  
+    - **Example Tag Requirements**:  
     ```markdown
     | Tag Key                | Value Example       | Enforced By |
     |------------------------|---------------------|-------------|
@@ -1097,7 +1098,7 @@ To ensure robust governance and access control for the **External Partner** role
 
 ### **3. Encryption & Data Handling (Security Compliance)**
 - **In Transit**:  
-  - Enforce **TLS 1.2+** via S3 bucket policy:  
+    - Enforce **TLS 1.2+** via S3 bucket policy:  
     ```json
     {
         "Version": "2012-10-17",
@@ -1115,10 +1116,10 @@ To ensure robust governance and access control for the **External Partner** role
     }
     ```
 - **At Rest**:  
-  - **S3 SSE-KMS** (not SSE-S3) with a **dedicated KMS key** for partners:  
-    - KMS key policy grants `kms:Encrypt`/`kms:Decrypt` *only* to `ExternalPartnerIngestRole`.  
-    - Key rotation every 90 days (via AWS KMS auto-rotation).  
-  - *Why?* Meets "encryption (in transit and at rest)" and "data handling protocols" requirements.
+    - **S3 SSE-KMS** (not SSE-S3) with a **dedicated KMS key** for partners:  
+        - KMS key policy grants `kms:Encrypt`/`kms:Decrypt` *only* to `ExternalPartnerIngestRole`.  
+        - Key rotation every 90 days (via AWS KMS auto-rotation).  
+    - *Why?* Meets "encryption (in transit and at rest)" and "data handling protocols" requirements.
 
 ---
 
@@ -1136,26 +1137,27 @@ To ensure robust governance and access control for the **External Partner** role
       }
   }
   ```
-  - **Blocks**: Data movement to non-approved regions/services (e.g., S3 → RDS, S3 → EC2).  
-  - *Why?* Enforces "data not processed/stored outside approved AWS services" (S3 only).
+    - **Blocks**: Data movement to non-approved regions/services (e.g., S3 → RDS, S3 → EC2).  
+    - *Why?* Enforces "data not processed/stored outside approved AWS services" (S3 only).
 
 ---
 
 ### **5. Audit & Compliance (Meeting "Security Audits" Requirement)**
 - **CloudTrail + S3 Access Logs**:  
-  - Enable **CloudTrail logging** for all `ExternalPartnerIngestRole` activities.  
-  - Store logs in a **separate, encrypted S3 bucket** (e.g., `enterprise-data-audit-logs`) with `s3:PutObject` blocked for partners.  
+    - Enable **CloudTrail logging** for all `ExternalPartnerIngestRole` activities.  
+    - Store logs in a **separate, encrypted S3 bucket** (e.g., `enterprise-data-audit-logs`) with `s3:PutObject` blocked for partners.  
 - **Automated Compliance Checks**:  
-  - Use **AWS Config** to continuously monitor:  
-    - Missing metadata tags on S3 objects.  
-    - Unencrypted data.  
-    - Data copied outside S3.  
-  - **Alerts**: Trigger Slack/email to data governance team on non-compliance.  
-- *Why?* Provides auditable evidence for "security audits" and "documentation" requirements.
+    - Use **AWS Config** to continuously monitor:  
+        - Missing metadata tags on S3 objects.  
+        - Unencrypted data.  
+        - Data copied outside S3.  
+    - **Alerts**: Trigger Slack/email to data governance team on non-compliance.  
+    - *Why?* Provides auditable evidence for "security audits" and "documentation" requirements.
 
 ---
 
 ### **Why This Architecture Works**
+
 | Requirement                          | Control Implemented                     | Outcome                                  |
 |--------------------------------------|-----------------------------------------|------------------------------------------|
 | Comply with data classification      | Lambda metadata validation + KMS tags    | No untagged data ingested                |
