@@ -375,15 +375,15 @@ Here's a precise, implementation-focused strategy for ensuring governance and ac
 ---
 
 ### **2. Pipeline Security (Batch/Streaming)**
-- **IAM Roles (Not Users)**:  
-  - **Never** use IAM users for pipelines. Create **dedicated IAM roles** (e.g., `DataEngineer-Streaming-Role`) with *minimal permissions*:  
-    - `kinesis:PutRecords`, `s3:PutObject` (for Kinesis→S3 pipelines).  
-    - `glue:StartJobRun` (for Glue jobs).  
-  - **Attach to services** (e.g., Kinesis Data Streams, Glue) via **service-linked roles** or **instance profiles**.  
+- **IAM Roles (Not Users)**:
+    - **Never** use IAM users for pipelines. Create **dedicated IAM roles** (e.g., `DataEngineer-Streaming-Role`) with *minimal permissions*:
+        - `kinesis:PutRecords`, `s3:PutObject` (for Kinesis→S3 pipelines).
+        - `glue:StartJobRun` (for Glue jobs).
+    - **Attach to services** (e.g., Kinesis Data Streams, Glue) via **service-linked roles** or **instance profiles**.  
 
-- **VPC Endpoints**:  
-  - For pipelines accessing S3, **disable public endpoints** and use **S3 VPC Endpoints** (private connectivity).  
-  - *Data Engineer Action*: Configure VPC endpoint policies to allow *only* the pipeline’s IAM role to access the S3 bucket.
+- **VPC Endpoints**:
+    - For pipelines accessing S3, **disable public endpoints** and use **S3 VPC Endpoints** (private connectivity).
+    - *Data Engineer Action*: Configure VPC endpoint policies to allow *only* the pipeline’s IAM role to access the S3 bucket.
 
 ---
 
