@@ -90,6 +90,11 @@ nav:
     - RAG vs Agentic RAG: 'posts/agentic-rag.md'
     - Agno Framework: 'posts/agentic-ai-w-agno.md'
 
+  - Infrastructure:
+    - QA Round 1: 'posts/infrastructure/qa-round-1.md'
+    - QA Round 2: 'posts/infrastructure/qa-round-2.md'
+    - QA Round 3: 'posts/infrastructure/qa-round-3.md'
+
   - Bookmarks:
     - Links: 'posts/bookmarks.md'
     - CS211: 'posts/stanford-online-ai.md'
